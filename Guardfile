@@ -42,8 +42,13 @@ guard 'rspec', :version => 2, :all_after_pass => false, :cli => '--drb'  do
   #watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/requests/#{m[1]}_spec.rb" }
   # Add following Railstutorial book
   watch(%r{^app/views/(.+)/}) do |m|
-    (m[1][/_pages/] ? "spec/requests/#{m[1]}_spec.rb" : "spec/requests/#{m[1].singularize}_pages_spec.rb")
-    "spec" if (m[1][/layouts/]) # watch layouts/ directory
+    if (m[1][/layouts/])
+      "spec"
+    elsif (m[1][/_pages/])
+      "spec/requests/#{m[1]}_spec.rb"
+    else
+      "spec/requests/#{m[1].singularize}_pages_spec.rb"
+    end
   end
   
   # Turnip features and steps
