@@ -4,29 +4,29 @@ describe "Static pages" do
 
   subject { page }
 
-  describe "Home page" do
-    before(:each) { visit root_path }
+  shared_examples_for "all static pages" do |option|
+    it { should have_selector('h1',    text: option[:heading]) }
+    it { should have_selector('title', text: full_title(option[:page_title])) }
+  end
 
-    it { should have_selector('h1',        text: 'Sample App')}
-    it { should have_selector('title',     text: full_title('')) }
-    it { should_not have_selector('title', text: '| Home') }
+  describe "Home page" do
+    before { visit root_path }
+    it_should_behave_like "all static pages", {heading: 'Sample App', page_title: ''}
+    it { should_not have_selector 'title', text: '| Home' }
   end
   
   describe "Help page" do
-    before(:each) { visit help_path }
-    it { should have_selector('h1',    text: 'Help') }
-    it { should have_selector('title', text: full_title('Help')) }
+    before { visit help_path }
+    it_should_behave_like "all static pages", {heading: 'Help', page_title: 'Help'}
   end
 
   describe "About page" do
-    before(:each) { visit about_path }
-    it { should have_selector('h1',    text: 'About Us') }
-    it { should have_selector('title', text: full_title('About Us')) }
+    before { visit about_path }
+    it_should_behave_like "all static pages", {heading: 'About Us', page_title: 'About Us'}
   end
 
   describe "Contact page" do
-    before(:each) { visit contact_path }
-    it { should have_selector('h1',    text: 'Contact') }
-    it { should have_selector('title', text: full_title('Contact')) }
+    before { visit contact_path }
+    it_should_behave_like "all static pages", {heading: 'Contact', page_title: 'Contact'}
   end
 end
