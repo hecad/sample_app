@@ -35,7 +35,13 @@ describe "User pages" do
 
         it { should have_selector('title', text: 'Sign up') }
         it { should have_content('error') }
-        it { should have_selector('div.alert.alert-error', text: 'The form contains 7 errors') }
+        it { should have_selector('div.alert.alert-error', text: 'The form contains 6 errors') }
+      end
+
+      describe "chande the error message for password digest" do
+        before { click_button submit }
+
+        it { should have_selector('div#error_explanation ul li', text: 'Password can\'t be blank') }
       end
     end
 
