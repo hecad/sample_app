@@ -113,6 +113,17 @@ describe "Authentication" do
         specify { response.should redirect_to(root_path) }        
       end
     end
+
+    describe "as admin user" do
+      let(:admin_user) { FactoryGirl.create(:admin) }
+
+      before { sign_in admin_user }
+
+      describe "submitting a DELETE request to the Users#destroy action" do
+        before { delete user_path(admin_user) }
+        specify { response.should redirect_to(root_path) }        
+      end
+    end
   end
 end
 
