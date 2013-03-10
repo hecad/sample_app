@@ -19,6 +19,8 @@ describe "Authentication" do
 
       it { should have_selector('title', text: 'Sign in') }
       it { should have_error_message('Invalid') }
+      it { should_not have_selector('.dropdown-menu li a', text: 'Profile') }
+      it { should_not have_selector('.dropdown-menu li a', text: 'Settings') }
 
       describe "after visiting another page" do
         before { click_link "Home" }
