@@ -2,50 +2,15 @@
   <div class="row">
     <aside class="span4">
       <section>
-        <a href="<%= user_path(current_user) %>">
-          <%= gravatar_for current_user, size: 52 %>
-        </a>
-        <h1>
-          <%= current_user.name %>
-        </h1>
-        <span>
-          <%= link_to "view my profile", current_user %>
-        </span>
-        <span>
-          <%= pluralize(current_user.microposts.count, "micropost") %>
-        </span>
+        <%= render 'shared/user_info' %>
       </section>
       <section>
-        <%= form_for(@micropost) do |f| %>
-          <%= render 'shared/error_messages', object: f.object %>
-          <div class="field">
-            <%= f.text_area :content, placeholder: "Compose new micropost..." %>
-          </div>
-          <%= f.submit "Post", class: "btn btn-large btn-primary" %>
-        <% end %>
+        <%= render 'shared/micropost_form' %>
       </section>
     </aside>
     <div class="span8">
       <h3>Micropost Feed</h3>
-      <% if @feed_items.any? %>
-        <ol class="microposts">
-
-          <% @feed_items.each do |feed_item| %>
-            <li id="<%= feed_item.id %>">
-              <%= link_to gravatar_for(feed_item.user), feed_item.user %>
-              <span class="user">
-                <%= link_to feed_item.user.name, feed_item.user %>
-              </span>
-              <span class="content"><%= feed_item.content %></span>
-              <span class="timestamp">
-                Posted <%= time_ago_in_words(feed_item.created_at) %> ago.
-              </span>
-            </li>
-          <% end %>
-
-        </ol>
-        <%= will_paginate @feed_items %>
-      <% end %>
+      <%= render 'shared/feed' %>
     </div>
   </div>  
 <% else %>
