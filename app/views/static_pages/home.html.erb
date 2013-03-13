@@ -25,6 +25,28 @@
         <% end %>
       </section>
     </aside>
+    <div class="span8">
+      <h3>Micropost Feed</h3>
+      <% if @feed_items.any? %>
+        <ol class="microposts">
+
+          <% @feed_items.each do |feed_item| %>
+            <li id="<%= feed_item.id %>">
+              <%= link_to gravatar_for(feed_item.user), feed_item.user %>
+              <span class="user">
+                <%= link_to feed_item.user.name, feed_item.user %>
+              </span>
+              <span class="content"><%= feed_item.content %></span>
+              <span class="timestamp">
+                Posted <%= time_ago_in_words(feed_item.created_at) %> ago.
+              </span>
+            </li>
+          <% end %>
+
+        </ol>
+        <%= will_paginate @feed_items %>
+      <% end %>
+    </div>
   </div>  
 <% else %>
   <div class="center hero-unit">
