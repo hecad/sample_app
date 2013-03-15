@@ -41,6 +41,36 @@ describe "Static pages" do
         it { should have_link("0 following", href: following_user_path(user)) }
         it { should have_link("1 followers", href: followers_user_path(user)) }
       end
+
+      describe "how the counter of microposts is redered" do
+        subject { page }
+        let(:another_user) { FactoryGirl.create(:user) }
+        before do
+          sign_in another_user
+          visit root_path
+        end
+
+        describe "when 0 microposts" do
+          it { should have_selector("span", text: "0 microposts") }    
+        end
+
+        describe "when 1 micropost" do
+          before do
+           FactoryGirl.create(:micropost, user: another_user, content: "Lorem ipsum") 
+           visit root_path
+          end
+          it { should have_selector("span", text: "1 micropost") }    
+        end
+        
+        describe "when 2 micropost" do
+          before do
+           FactoryGirl.create(:micropost, user: another_user, content: "Lorem ipsum") 
+           FactoryGirl.create(:micropost, user: another_user, content: "Lorem ipsum")
+           visit root_path
+         end
+          it { should have_selector("span", text: "2 microposts") }    
+        end
+      end
     end
   end
   
